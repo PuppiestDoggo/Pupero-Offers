@@ -1,9 +1,11 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional
 from datetime import datetime
+from uuid import uuid4
 
 class Offer(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+    public_id: str = Field(default_factory=lambda: str(uuid4()), index=True, unique=True, max_length=36)
     title: str = Field(max_length=255, index=True)
     desc: str = Field(max_length=2048)
     price_xmr: float = Field(gt=0)

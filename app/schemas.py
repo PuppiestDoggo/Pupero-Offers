@@ -10,7 +10,10 @@ class OfferCreate(BaseModel):
     seller_id: Optional[int] = 0
 
 class OfferUpdate(BaseModel):
-    desc: str = Field(min_length=1, max_length=2048)
+    title: Optional[str] = Field(default=None, min_length=1, max_length=255)
+    desc: Optional[str] = Field(default=None, min_length=1, max_length=2048)
+    price: Optional[float] = Field(default=None, gt=0)
+    status: Optional[str] = Field(default=None, min_length=2, max_length=32)
 
 class BidCreate(BaseModel):
     bid: float = Field(gt=0)
@@ -18,7 +21,7 @@ class BidCreate(BaseModel):
 
 # Output Schemas
 class OfferOut(BaseModel):
-    id: int
+    id: str
     title: str
     desc: str
     price: float

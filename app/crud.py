@@ -17,6 +17,11 @@ def get_offer(session: Session, offer_id: int) -> Optional[Offer]:
     return session.get(Offer, offer_id)
 
 
+def get_offer_by_public_id(session: Session, public_id: str) -> Optional[Offer]:
+    stmt = select(Offer).where(Offer.public_id == public_id)
+    return session.exec(stmt).first()
+
+
 def list_offers(session: Session, status: Optional[str] = None) -> List[Offer]:
     stmt = select(Offer)
     if status:
@@ -33,8 +38,15 @@ def search_offers(session: Session, query: str) -> List[Offer]:
     return list(session.exec(stmt))
 
 
-def update_offer_desc(session: Session, offer: Offer, new_desc: str) -> Offer:
-    offer.desc = new_desc
+def update_offer_fields(session: Session, offer: Offer, title: Optional[str] = None, desc: Optional[str] = None, price_xmr: Optional[float] = None, status: Optional[str] = None) -> Offer:
+    if title is not None:
+        offer.title = title
+    if desc is not None:
+        offer.desc = desc
+    if price_xmr is not None:
+        offer.price_xmr = price_xmr
+    if status is not None:
+        offer.status = status
     session.add(offer)
     session.commit()
     session.refresh(offer)

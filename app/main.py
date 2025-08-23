@@ -3,7 +3,7 @@ from typing import List, Optional
 from sqlmodel import Session
 from .database import get_session, init_db
 from .schemas import OfferCreate, OfferUpdate, BidCreate, OfferOut, TransactionOut
-from .crud import create_offer, get_offer, list_offers, search_offers, update_offer_desc, delete_offer, create_bid, user_history
+from .crud import create_offer, get_offer_by_public_id, list_offers, search_offers, update_offer_fields, delete_offer, create_bid, user_history
 from .models import Offer as OfferModel, Transaction as TransactionModel
 
 app = FastAPI(title="Pupero Offers Service")
