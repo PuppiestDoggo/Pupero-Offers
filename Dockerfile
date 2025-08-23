@@ -16,7 +16,7 @@ COPY CreateDB /app/CreateDB
 COPY Offers/app /app/app
 COPY Offers/.env /app/.env
 
-EXPOSE 8001
+EXPOSE 8002
 
 # Use env OFFERS_PORT to set port
-CMD ["/bin/sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${OFFERS_PORT:-8001}"]
+CMD ["/bin/sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${OFFERS_PORT:-8002}"]
