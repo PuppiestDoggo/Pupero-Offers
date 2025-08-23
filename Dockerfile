@@ -11,7 +11,8 @@ WORKDIR /app
 COPY Offers/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy app
+# Copy app and centralized schemas
+COPY CreateDB /app/CreateDB
 COPY Offers/app /app/app
 COPY Offers/.env /app/.env
 

@@ -1,25 +1,7 @@
-from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional
-from datetime import datetime
-from uuid import uuid4
-
-class Offer(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    public_id: str = Field(default_factory=lambda: str(uuid4()), index=True, unique=True, max_length=36)
-    title: str = Field(max_length=255, index=True)
-    desc: str = Field(max_length=2048)
-    price_xmr: float = Field(gt=0)
-    seller_id: int = Field(default=0, index=True)
-    status: str = Field(default="open", index=True, max_length=32)
-    timestamp: datetime = Field(default_factory=datetime.utcnow, index=True)
-
-
-class Transaction(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    offer_id: int = Field(index=True)
-    buyer_id: int = Field(default=0, index=True)
-    seller_id: int = Field(default=0, index=True)
-    amount: float = Field(gt=0)
-    status: str = Field(default="pending", index=True, max_length=32)
-    tx_hash: str = Field(index=True, unique=True, max_length=64)
-    created_at: datetime = Field(default_factory=datetime.utcnow, index=True)
+# Re-export models from centralized CreateDB, adding repo root to sys.path for local runs
+import os, sys
+_current_dir = os.path.dirname(os.path.abspath(__file__))
+_repo_root = os.path.abspath(os.path.join(_current_dir, '..', '..'))
+if _repo_root not in sys.path:
+    sys.path.insert(0, _repo_root)
+from CreateDB.models import Offer, Transaction

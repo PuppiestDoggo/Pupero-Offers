@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, create_engine, Session
+from sqlmodel import create_engine, Session
 from typing import Generator
 import os
 from dotenv import load_dotenv
@@ -12,12 +12,13 @@ DATABASE_URL = os.getenv("DATABASE_URL") or os.getenv("OFFERS_DATABASE_URL") or 
 # For sqlite we need special connect args; for MariaDB/Postgres/etc, leave empty
 connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 
-# Create engine
+# Create engine (schema creation is centralized in CreateDB)
 engine = create_engine(DATABASE_URL, echo=False, connect_args=connect_args)
 
 
 def init_db() -> None:
-    SQLModel.metadata.create_all(engine)
+    # No-op: schema is managed by CreateDB
+    return None
 
 
 def get_session() -> Generator[Session, None, None]:
