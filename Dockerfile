@@ -5,14 +5,13 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 # Runtime deps
-RUN apk add --no-cache build-base gcc musl-dev linux-headers libffi-dev mariadb-connector-c-dev
+RUN apk add --no-cache build-base gcc musl-dev linux-headers libffi-dev mariadb-connector-c-dev python3-dev
 
 WORKDIR /app
 COPY Offers/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Copy app and centralized schemas
-COPY CreateDB /app/CreateDB
 COPY Offers/app /app/app
 COPY Offers/.env /app/.env
 

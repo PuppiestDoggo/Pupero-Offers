@@ -2,13 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status, Form, Body, Request
 from typing import List, Optional
 from sqlmodel import Session
 from .database import get_session, init_db
-# Centralized schemas import from CreateDB with repo-root guard for local runs
-import os, sys
-_current_dir = os.path.dirname(os.path.abspath(__file__))
-_repo_root = os.path.abspath(os.path.join(_current_dir, '..', '..'))
-if _repo_root not in sys.path:
-    sys.path.insert(0, _repo_root)
-from CreateDB.schemas import OfferCreate, OfferUpdate, BidCreate, OfferOut, TransactionOut
+from .schemas import OfferCreate, OfferUpdate, BidCreate, OfferOut, TransactionOut
 from .crud import create_offer, get_offer_by_public_id, list_offers, search_offers, update_offer_fields, delete_offer, create_bid, user_history
 from .models import Offer as OfferModel, Transaction as TransactionModel
 
