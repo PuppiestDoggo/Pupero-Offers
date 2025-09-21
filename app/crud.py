@@ -6,7 +6,18 @@ from .models import Offer, Transaction
 # Offer CRUD
 
 def create_offer(session: Session, title: str, desc: str, price_xmr: float, seller_id: int = 0) -> Offer:
-    offer = Offer(title=title, desc=desc, price_xmr=price_xmr, seller_id=seller_id, status="open")
+    # Generate a stable public_id for external references
+    public_id = str(uuid4()).replace("-", "")
+    from datetime import datetime
+    offer = Offer(
+        public_id=public_id,
+        title=title,
+        desc=desc,
+        price_xmr=price_xmr,
+        seller_id=seller_id,
+        status="open",
+        timestamp=datetime.utcnow(),
+    )
     session.add(offer)
     session.commit()
     session.refresh(offer)
