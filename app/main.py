@@ -92,7 +92,11 @@ def api_bid_offer(offer_id: str, payload: BidCreate, session: Session = Depends(
     offer = get_offer_by_public_id(session, offer_id)
     if not offer:
         raise HTTPException(status_code=404, detail="Offer not found")
-    tx = create_bid(session, offer, amount=payload.bid, buyer_id=payload.buyer_id or 0)
+    # Prevent self-trade bids
+    buyer_id = int(payload.buyer_id or 0)
+    if buyer_id and offer.seller_id and int(offer.seller_id) == buyer_id:
+        raise HTTPException(status_code=400, detail="Cannot bid on your own offer")
+    tx = create_bid(session, offer, amount=payload.bid, buyer_id=buyer_id)
     return {"tx_id": tx.tx_hash}
 
 
