@@ -13,7 +13,7 @@ COPY Pupero-Offers/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Copy app source
-COPY Pupero-Offers/app /app/app
+COPY ./app /app/app
 # .env is provided at runtime; not copied into image
 
 EXPOSE 8002
