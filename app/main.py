@@ -108,5 +108,10 @@ def api_offers_history(user_id: int = Query(..., ge=0), session: Session = Depen
 
 # Basic health for convenience
 @app.get("/healthz")
+def healthz():
+    return {"status": "ok"}
+
+# Alias for k8s/monitoring expectations
+@app.get("/health")
 def health():
     return {"status": "ok"}
